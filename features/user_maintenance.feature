@@ -27,3 +27,8 @@ Scenario: Log in to the application
   And I should not see "Register"
 
 Scenario: Log out from the application
+  Given I am a registered and logged in user
+  And I am on the home page
+  And I click "Log out" link
+  Then I should be on the home page
+  And I should see "Successfully logged out"
