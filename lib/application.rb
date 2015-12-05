@@ -15,6 +15,27 @@ class WorkshopApp < Sinatra::Base
   set :admin_logged_in, false
   enable :sessions
   set :session_secret, '11223344556677'
+  before do
+    @user = User.get(session[:user_id]) if is_user?
+  end
+
+  register do
+    def auth(type)
+      condition do
+        redirect '/login' if send("is_#{type}?")
+      end
+    end
+  end
+
+  helpers do
+    def is_user?
+      @user == nil
+    end
+
+    def current_user
+      @user
+    end
+  end
 
   get '/' do
     erb :index
@@ -58,9 +79,9 @@ class WorkshopApp < Sinatra::Base
   end
 
   post '/users/session' do
-    user = User.authenticate(params[:email], params[:password])
-    session[:user_id] = user.id
-    session[:flash] = "Successfully logged in #{user.name}"
+    @user = User.authenticate(params[:email], params[:password])
+    session[:user_id] = @user.id
+    session[:flash] = "Successfully logged in #{@user.name}"
     redirect '/'
   end
   # start the server if ruby file executed directly
