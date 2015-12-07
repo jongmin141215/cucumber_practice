@@ -14,10 +14,6 @@ class WorkshopAppWorld
   include Capybara::DSL
   include RSpec::Expectations
   include RSpec::Matchers
-
-  def log_in_admin
-    WorkshopApp.admin_logged_in = true
-  end
 end
 
 World do
