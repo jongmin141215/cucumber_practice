@@ -25,6 +25,7 @@ require 'rspec'
 require 'dm-rspec'
 require 'course'
 require 'user'
+require 'delivery'
 require 'database_cleaner'
 
 RSpec.configure do |config|

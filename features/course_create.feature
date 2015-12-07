@@ -26,3 +26,14 @@ Scenario: Non logged in user cannot create course
 Scenario: Non logged in user cannot access the create new course form
   Given I am on Create course page
   And I should see "You are not authorized to access this page"
+
+Scenario: Add a delivery date to course
+  Given the course "Basic Programming" is created
+  And I am on the Course index page
+  And I click on "Add Delivery date" for the "Basic Programming" "Course"
+  And I fill in "Start" with "2015-12-01"
+  And I click "Submit" link
+  Then I should be on the Course index page
+  And I should see "Basic Programming"
+  And I should see "Delivery dates:"
+  And I should see "2015-12-01"

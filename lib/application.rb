@@ -3,6 +3,7 @@ require 'padrino-helpers'
 require 'data_mapper'
 require_relative 'course'
 require_relative 'user'
+require_relative 'delivery'
 
 class WorkshopApp < Sinatra::Base
   env = ENV['RACK_ENV'] || 'development'
@@ -45,6 +46,17 @@ class WorkshopApp < Sinatra::Base
   get '/courses/index' do
     @courses = Course.all
     erb :'courses/index'
+  end
+
+  get '/courses/:id/add_date', auth: :user do
+    @course = Course.get(params[:id])
+    erb :'courses/add_date'
+  end
+
+  post '/courses/new_date', auth: :user do
+    course = Course.get(params[:course_id])
+    course.deliveries.create(start_date: params[:start_date])
+    redirect '/courses/index'
   end
 
   get '/courses/create', auth: :user do
